@@ -9,6 +9,12 @@ interface AppState extends React.ComponentState {
   num: number
 }
 
+interface WidgetProps {
+  update: (e: React.FormEvent<HTMLInputElement>) => void
+}
+
+const Widget: React.StatelessComponent<WidgetProps> = (props: WidgetProps) => <input onChange={props.update}/>
+
 class App extends React.Component<AppProps, AppState> {
   
   static propTypes = {
@@ -22,10 +28,6 @@ class App extends React.Component<AppProps, AppState> {
   state = {
     num: 4
   }
-  
-  constructor(props: AppProps) {
-    super(props)
-  }
 
   update = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({
@@ -38,6 +40,7 @@ class App extends React.Component<AppProps, AppState> {
       <div>
         <input type="number" onChange={this.update}/>
         <h1>{this.props.txt}, {this.state.num}</h1>
+        <Widget update={(val) => console.log(val.currentTarget.value)}/>
       </div>
     )
   }
