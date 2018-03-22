@@ -1,22 +1,46 @@
-import * as React from 'react';
-import './App.css';
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
 
-const logo = require('./logo.svg');
+interface AppProps extends React.Props<App> {
+  txt?: string
+}
 
-class App extends React.Component {
-  render() {
+interface AppState extends React.ComponentState {
+  num: number
+}
+
+class App extends React.Component<AppProps, AppState> {
+  
+  static propTypes = {
+    txt: PropTypes.string
+  }
+
+  static defaultProps: AppProps = {
+    txt: 'Default text!'
+  }
+
+  state = {
+    num: 4
+  }
+  
+  constructor(props: AppProps) {
+    super(props)
+  }
+
+  update = (e: React.FormEvent<HTMLInputElement>) => {
+    this.setState({
+      num: +e.currentTarget.value
+    })
+  }
+
+  render(): JSX.Element {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React!!</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div>
+        <input type="number" onChange={this.update}/>
+        <h1>{this.props.txt}, {this.state.num}</h1>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
